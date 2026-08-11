@@ -1,0 +1,42 @@
+.root {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+  transition: opacity 150ms ease;
+}
+
+.fetching {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.body {
+  flex: 1;
+  overflow: auto;
+  height: 100%;
+}
+
+.previewBody {
+  height: 100%;
+  min-height: rem(300px);
+  padding: rem(40px);
+}
+
+/* Skeleton layout */
+
+.skeletonHeader {
+  padding: rem(16px) rem(20px);
+  border-bottom: rem(1px) solid
+    light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5));
+  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
+}
+
+.skeletonIcon {
+  flex-shrink: 0;
+}
+
+.skeletonBody {
+  flex: 1;
+  height: 100%;
+  padding: rem(40px);
+}

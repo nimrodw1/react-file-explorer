@@ -1,0 +1,15 @@
+.root {
+  flex: 1;
+  overflow: hidden;
+  padding: rem(4px);
+}
+
+.listWrapper {
+  width: 100%;
+}
+
+.loading {
+  flex: 1;
+  height: 100%;
+  padding: rem(24px);
+}

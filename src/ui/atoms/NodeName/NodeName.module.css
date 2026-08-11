@@ -1,0 +1,12 @@
+.root {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: rem(320px);
+  user-select: none;
+  line-height: 1.4;
+}
+
+.muted {
+  color: light-dark(var(--mantine-color-gray-6), var(--mantine-color-dark-3));
+}

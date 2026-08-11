@@ -1,0 +1,13 @@
+.root {
+  flex-wrap: wrap;
+}
+
+.chip {
+  cursor: pointer;
+  border: none;
+  transition: opacity 80ms ease;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
