@@ -4,18 +4,15 @@ import type { NodeId } from '@/types/fileSystem';
 interface ExplorerState {
   selectedId: NodeId | null;
   expandedIds: Set<NodeId>;
-  navPanelWidth: number;
 
   setSelectedId: (id: NodeId | null) => void;
   toggleExpanded: (id: NodeId) => void;
   collapseAll: () => void;
-  setNavPanelWidth: (width: number) => void;
 }
 
 export const useExplorerStore = create<ExplorerState>((set) => ({
   selectedId: null,
   expandedIds: new Set(),
-  navPanelWidth: 280,
 
   setSelectedId: (id) => set({ selectedId: id }),
 
@@ -31,6 +28,4 @@ export const useExplorerStore = create<ExplorerState>((set) => ({
     }),
 
   collapseAll: () => set({ expandedIds: new Set() }),
-
-  setNavPanelWidth: (width) => set({ navPanelWidth: width }),
 }));
