@@ -57,6 +57,9 @@ function TreeRowInner({
       tabIndex={0}
       onClick={handleSelect}
       onKeyDown={handleKeyDown}
+      data-testid="tree-row"
+      data-node-name={node.name}
+      data-node-id={node.id}
     >
       <Group gap={4} wrap="nowrap" className={classes.inner} align="center">
         {folder ? (
@@ -67,6 +70,7 @@ function TreeRowInner({
             onClick={handleToggle}
             aria-label={isExpanded ? `Collapse ${node.name}` : `Expand ${node.name}`}
             className={classes.chevron}
+            data-testid="tree-row-expand"
           >
             {isLoading ? (
               <Loader size="xs" type="dots" />

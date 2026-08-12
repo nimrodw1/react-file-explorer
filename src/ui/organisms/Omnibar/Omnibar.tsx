@@ -27,6 +27,7 @@ export function Omnibar({ query, category, onQueryChange, onCategoryChange }: Om
         value={query}
         onChange={(e) => onQueryChange(e.currentTarget.value)}
         aria-label="Search files"
+        data-testid="search-input"
         classNames={{ input: classes.input }}
       />
       <Select
@@ -37,6 +38,7 @@ export function Omnibar({ query, category, onQueryChange, onCategoryChange }: Om
         aria-label="Filter by type"
         allowDeselect={false}
         size="xs"
+        data-testid="category-select"
         classNames={{ input: classes.input }}
       />
     </Stack>

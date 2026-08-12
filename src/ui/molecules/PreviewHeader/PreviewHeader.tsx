@@ -34,7 +34,7 @@ export function PreviewHeader({ node }: PreviewHeaderProps) {
         className={classes.icon}
       />
       <Stack gap={2} className={classes.meta}>
-        <Text fw={600} size="md" className={classes.name} title={node.name}>
+        <Text fw={600} size="md" className={classes.name} title={node.name} data-testid="preview-name">
           {node.name}
         </Text>
         <Group gap="sm">

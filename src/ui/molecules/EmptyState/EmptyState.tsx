@@ -12,7 +12,7 @@ export function EmptyState({
   description = 'Select a file or folder from the tree to preview it here.',
 }: EmptyStateProps) {
   return (
-    <Stack align="center" justify="center" gap="sm" className={classes.root}>
+    <Stack align="center" justify="center" gap="sm" className={classes.root} data-testid="empty-state" data-title={title}>
       <IconFolderSearch
         size={48}
         stroke={1}

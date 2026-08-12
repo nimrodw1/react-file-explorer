@@ -3,7 +3,7 @@ import classes from './FilePreview.module.css';
 
 export function FilePreviewSkeleton() {
   return (
-    <Stack gap={0} className={classes.root}>
+    <Stack gap={0} className={classes.root} data-testid="preview-skeleton">
       {/* Header skeleton — matches PreviewHeader layout */}
       <Group className={classes.skeletonHeader} gap="md" wrap="nowrap">
         <Skeleton circle height={32} width={32} className={classes.skeletonIcon} />

@@ -48,7 +48,7 @@ export function FileTree({
 
   if (isRootLoading) {
     return (
-      <Center className={classes.loading} role="status" aria-label="Loading files…">
+      <Center className={classes.loading} role="status" aria-label="Loading files…" data-testid="tree-loading">
         <Loader type="dots" aria-hidden />
       </Center>
     );
@@ -79,6 +79,8 @@ export function FileTree({
       scrollbarSize={6}
       role="tree"
       aria-label="File explorer"
+      data-testid="file-tree"
+      viewportProps={{ 'data-testid': 'file-tree-viewport' }}
     >
       <div style={{ height: totalSize, position: 'relative' }} className={classes.listWrapper}>
         <div

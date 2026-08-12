@@ -5,7 +5,7 @@ import { CHILDREN_MAP, NODE_MAP, ROOT_IDS, computeNodePath } from './mockData';
 import { isFilterActive, searchAll } from './utils';
 
 const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
-const randomDelay = () => sleep(500 + Math.random() * 1000);
+const randomDelay = () => sleep(150 + Math.random() * 200);
 
 export class MockFileSystemService implements IFileSystemService {
   /**
