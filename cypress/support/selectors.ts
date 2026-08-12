@@ -40,6 +40,10 @@ export const SEL = {
   folderToggle: (folderName: string) =>
     `[data-testid="tree-row"][data-node-name="${folderName}"] [data-testid="tree-row-expand"]`,
 
+  // ── Filter results ───────────────────────────────────────────────────────────
+  /** "N results" or "N of M results" counter shown above the list in filter mode */
+  resultCount: '[data-testid="result-count"]',
+
   // ── Preview panel ────────────────────────────────────────────────────────────
   previewSkeleton: '[data-testid="preview-skeleton"]',
   previewName: '[data-testid="preview-name"]',
@@ -55,7 +59,7 @@ export const SEL = {
  * Tests reference these constants instead of hard-coding strings.
  */
 export const MOCK = {
-  /** Root-level folder names that always exist */
+  /** All root-level folders that exist in mockData.json (faker seed 42, 25 roots) */
   rootFolders: [
     'Projects',
     'Documents',
@@ -67,6 +71,21 @@ export const MOCK = {
     'Backup',
     'Shared',
     'Clients',
+    'Resources',
+    'Assets',
+    'Library',
+    'Portfolio',
+    'Research',
+    'Design',
+    'Engineering',
+    'Finance',
+    'Legal',
+    'Marketing',
+    'Product',
+    'Sales',
+    'HR',
+    'Operations',
+    'Support',
   ] as const,
 
   /** "Projects" has 17 children — safe to use for expand/collapse tests */

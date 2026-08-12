@@ -44,11 +44,22 @@ describe('Tree browsing', () => {
     beforeEach(() => {
       cy.toggleFolder(FOLDER);
       cy.get(SEL.treeRowByName(FOLDER)).should('have.attr', 'aria-expanded', 'true');
+      // Wait for children to load from the mock before each test captures counts.
+      // aria-expanded flips synchronously; child rows arrive after the async delay.
+      cy.get(SEL.treeRow).should('have.length.greaterThan', MOCK.rootFolders.length);
+    });
+
+    it('clicking the toggle again hides child rows', () => {
+      cy.get(SEL.treeRow)
+        .its('length')
+        .then((expanded) => {
+          cy.toggleFolder(FOLDER);
+          cy.get(SEL.treeRow).should('have.length.lessThan', expanded);
+        });
     });
 
     it('marks the folder row as collapsed again', () => {
       cy.toggleFolder(FOLDER);
-
       cy.get(SEL.treeRowByName(FOLDER)).should('have.attr', 'aria-expanded', 'false');
     });
   });

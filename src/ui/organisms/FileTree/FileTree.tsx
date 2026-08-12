@@ -25,6 +25,8 @@ export interface FileTreeProps {
   isFetchingNextPage?: boolean;
   /** Called when the user scrolls within OVERSCAN rows of the end of the loaded list. */
   onNearEnd?: () => void;
+  /** When false, hides the expand/collapse toggle on folder rows (used in filter mode). */
+  expandable?: boolean;
   onSelect: (id: NodeId) => void;
   onToggle: (id: NodeId) => void;
 }
@@ -40,6 +42,7 @@ export function FileTree({
   totalCount,
   isFetchingNextPage = false,
   onNearEnd,
+  expandable = true,
   onSelect,
   onToggle,
 }: FileTreeProps) {
@@ -104,7 +107,7 @@ export function FileTree({
       viewportProps={{ 'data-testid': 'file-tree-viewport' } as unknown as ComponentProps<'div'>}
     >
       {showResultCount && (
-        <Text size="xs" c="dimmed" className={classes.resultCount}>
+        <Text size="xs" c="dimmed" className={classes.resultCount} data-testid="result-count">
           {flatRows.length === totalCount
             ? `${totalCount} result${totalCount !== 1 ? 's' : ''}`
             : `${flatRows.length} of ${totalCount} results`}
@@ -130,6 +133,7 @@ export function FileTree({
                   isExpanded={row.isExpanded}
                   isSelected={row.node.id === selectedId}
                   isLoading={row.isLoading}
+                  expandable={expandable}
                   onSelect={onSelect}
                   onToggle={onToggle}
                 />

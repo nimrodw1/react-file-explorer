@@ -49,20 +49,22 @@ export function FilterResultsContainer() {
 
   const totalCount = query.data?.pages[0]?.totalCount;
 
+  const { hasNextPage, isFetchingNextPage, fetchNextPage } = query;
   const handleNearEnd = useCallback(() => {
-    if (query.hasNextPage && !query.isFetchingNextPage) {
-      void query.fetchNextPage();
+    if (hasNextPage && !isFetchingNextPage) {
+      void fetchNextPage();
     }
-  }, [query]);
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
     <FileTree
       flatRows={flatRows}
       selectedId={selectedId}
       isFiltered
+      expandable={false}
       isRootLoading={query.isLoading}
       totalCount={totalCount}
-      isFetchingNextPage={query.isFetchingNextPage}
+      isFetchingNextPage={isFetchingNextPage}
       onNearEnd={handleNearEnd}
       onSelect={setSelectedId}
       onToggle={NOOP_TOGGLE}

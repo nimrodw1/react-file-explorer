@@ -1,4 +1,4 @@
-import { isFile, type FileCategory, type FSNode } from '@/types/fileSystem';
+import { isFile, type FileCategory, type FileNode, type FSNode } from '@/types/fileSystem';
 import rawNodes from './mockData.json';
 
 export const MOCK_NODES: FSNode[] = rawNodes as FSNode[];
@@ -28,7 +28,7 @@ export const LOWERCASE_NAME = new Map<string, string>(
  * Pre-built inverted index: category → all FileNodes in that category.
  * Turns category-only searches from O(N) full scan to O(1) lookup.
  */
-export const CATEGORY_INDEX = new Map<FileCategory, FSNode[]>();
+export const CATEGORY_INDEX = new Map<FileCategory, FileNode[]>();
 for (const node of MOCK_NODES) {
   if (isFile(node)) {
     const bucket = CATEGORY_INDEX.get(node.category) ?? [];

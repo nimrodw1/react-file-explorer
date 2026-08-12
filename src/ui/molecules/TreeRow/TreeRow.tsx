@@ -12,6 +12,8 @@ export interface TreeRowProps {
   isExpanded: boolean;
   isSelected: boolean;
   isLoading?: boolean;
+  /** When false the expand/collapse toggle is hidden even for folder nodes (e.g. in filter results). */
+  expandable?: boolean;
   onToggle: (id: string) => void;
   onSelect: (id: string) => void;
 }
@@ -22,6 +24,7 @@ function TreeRowInner({
   isExpanded,
   isSelected,
   isLoading = false,
+  expandable = true,
   onToggle,
   onSelect,
 }: TreeRowProps) {
@@ -55,7 +58,7 @@ function TreeRowInner({
       style={{ paddingLeft: `calc(${depth} * var(--tree-indent, 20px) + 8px)` }}
       role="treeitem"
       aria-selected={isSelected}
-      aria-expanded={folder ? isExpanded : undefined}
+      aria-expanded={folder && expandable ? isExpanded : undefined}
       tabIndex={0}
       onClick={handleSelect}
       onKeyDown={handleKeyDown}
@@ -64,7 +67,7 @@ function TreeRowInner({
       data-node-id={node.id}
     >
       <Group gap={4} wrap="nowrap" className={classes.inner} align="center">
-        {folder ? (
+        {folder && expandable ? (
           <ActionIcon
             variant="subtle"
             color="gray"
@@ -107,5 +110,6 @@ export const TreeRow = React.memo(
     prev.isExpanded === next.isExpanded &&
     prev.isSelected === next.isSelected &&
     prev.isLoading === next.isLoading &&
+    prev.expandable === next.expandable &&
     prev.depth === next.depth
 );

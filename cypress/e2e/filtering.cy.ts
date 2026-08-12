@@ -102,6 +102,28 @@ describe('Filtering', () => {
     });
   });
 
+  // ── Result count ──────────────────────────────────────────────────────────────
+
+  describe('Result count', () => {
+    it('shows "N results" when all results fit in one page', () => {
+      cy.typeSearch(MOCK.searchTerm.matchesMusic); // 24 results — fits in one 100-item page
+      cy.get(SEL.treeRow).should('have.length.greaterThan', 0);
+
+      cy.get(SEL.resultCount).should('have.text', '24 results');
+    });
+
+    it('shows "N of M results" when results span multiple pages', () => {
+      cy.selectCategory(MOCK.categories.image.label); // 2 627 results — multi-page
+      cy.get(SEL.treeRow).should('have.length.greaterThan', 0);
+
+      cy.get(SEL.resultCount).should('contain.text', 'of 2');
+    });
+
+    it('result count is not shown in tree-browse mode', () => {
+      cy.get(SEL.resultCount).should('not.exist');
+    });
+  });
+
   // ── Preview panel during filtering ────────────────────────────────────────────
 
   describe('Preview while filtering', () => {

@@ -65,6 +65,20 @@ describe('Scrolling & virtualization', () => {
 
       cy.get(SEL.treeRow).its('length').should('be.lessThan', MAX_RENDERED_ROWS);
     });
+
+    it('scrolling to the bottom triggers loading of the next page', () => {
+      // Capture the initial result-count text (e.g. "100 of 2 627 results")
+      cy.get(SEL.resultCount)
+        .invoke('text')
+        .then((initialText) => {
+          cy.scrollTree('bottom');
+
+          // After the next-page fetch resolves the loaded count grows — text must change
+          cy.get(SEL.resultCount).should('not.have.text', initialText);
+          // And it must still reference the same total (confirms we're paginating, not reloading)
+          cy.get(SEL.resultCount).should('contain.text', 'of 2');
+        });
+    });
   });
 
   // ── Selecting after scroll ───────────────────────────────────────────────────
