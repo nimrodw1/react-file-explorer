@@ -44,10 +44,18 @@ Cypress.Commands.add('waitForTree', () => {
 Cypress.Commands.add('typeSearch', (query: string) => {
   // SEL.searchInput targets the <input> directly (Mantine puts data-testid there)
   cy.get(SEL.searchInput).clear().type(query);
+  // Omnibar debounce (300ms) only commits to the URL after typing stops.
+  // Wait for that commit so subsequent assertions see filtered results, not the tree.
+  cy.location('search').should((search) => {
+    expect(new URLSearchParams(search).get('query')).to.eq(query);
+  });
 });
 
 Cypress.Commands.add('clearSearch', () => {
   cy.get(SEL.searchInput).clear();
+  cy.location('search').should((search) => {
+    expect(new URLSearchParams(search).get('query')).to.eq(null);
+  });
 });
 
 Cypress.Commands.add('selectCategory', (label: string) => {

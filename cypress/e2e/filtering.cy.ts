@@ -29,6 +29,10 @@ describe('Filtering', () => {
     it('every result row contains the search term in its node name', () => {
       cy.typeSearch(MOCK.searchTerm.matchesMusic); // "song"
 
+      // result-count only renders in filter mode, after results have loaded —
+      // waiting for it avoids asserting against the still-visible browse tree.
+      cy.get(SEL.resultCount).should('be.visible');
+
       cy.get(SEL.treeRow).each(($row) => {
         cy.wrap($row.attr('data-node-name') ?? '').should('match', /song/i);
       });
