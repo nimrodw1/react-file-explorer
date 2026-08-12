@@ -11,6 +11,8 @@ import classes from './FilePreview.module.css';
 
 export interface FilePreviewProps {
   node: FSNode | null;
+  /** Slash-separated ancestor path shown in the preview header, e.g. "Media / Photos". */
+  path?: string;
   /** True on the very first load — no previous data to show yet. Renders a skeleton. */
   isLoading: boolean;
   /** True while fetching a new node but previous data is still displayed. Adds a dim overlay. */
@@ -39,7 +41,7 @@ function CategoryPreviewRouter({ node }: { node: FSNode }) {
   }
 }
 
-export function FilePreview({ node, isLoading, isFetching = false }: FilePreviewProps) {
+export function FilePreview({ node, path, isLoading, isFetching = false }: FilePreviewProps) {
   if (isLoading) {
     return <FilePreviewSkeleton />;
   }
@@ -54,7 +56,7 @@ export function FilePreview({ node, isLoading, isFetching = false }: FilePreview
 
   return (
     <Stack gap={0} className={`${classes.root} ${isFetching ? classes.fetching : ''}`}>
-      <PreviewHeader node={node} />
+      <PreviewHeader node={node} path={path} />
       <div className={classes.body}>
         <CategoryPreviewRouter node={node} />
       </div>

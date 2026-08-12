@@ -111,7 +111,7 @@ export const Interactive: Story = {
       <FileTree
         flatRows={sampleRows}
         selectedId={selectedId}
-        hasBreadcrumbs={false}
+        isFiltered={false}
         isRootLoading={false}
         onSelect={setSelectedId}
         onToggle={() => {}}

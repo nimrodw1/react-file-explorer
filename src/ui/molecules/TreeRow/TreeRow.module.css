@@ -17,11 +17,6 @@
   }
 }
 
-.withBreadcrumb {
-  height: rem(52px);
-  align-items: center;
-}
-
 .selected {
   background-color: light-dark(var(--mantine-color-blue-0), var(--mantine-color-dark-5));
 
@@ -49,11 +44,4 @@
   overflow: hidden;
   flex: 1;
   min-width: 0;
-}
-
-.breadcrumb {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  line-height: 1.3;
 }

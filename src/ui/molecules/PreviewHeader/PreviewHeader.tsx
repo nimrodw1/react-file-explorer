@@ -26,9 +26,11 @@ function formatDate(iso: string): string {
 
 export interface PreviewHeaderProps {
   node: FSNode;
+  /** Slash-separated ancestor path, e.g. "Media / Photos". Empty for root-level nodes. */
+  path?: string;
 }
 
-export function PreviewHeader({ node }: PreviewHeaderProps) {
+export function PreviewHeader({ node, path }: PreviewHeaderProps) {
   const file = isFile(node);
 
   return (
@@ -43,9 +45,14 @@ export function PreviewHeader({ node }: PreviewHeaderProps) {
           fw={600}
           size="md"
           className={classes.name}
-          title={node.name}
+          title={path ? `${path} / ${node.name}` : node.name}
           data-testid="preview-name"
         >
+          {path && (
+            <Text span c="dimmed" fw={400}>
+              {path} /{' '}
+            </Text>
+          )}
           {node.name}
         </Text>
         <Group gap="sm">

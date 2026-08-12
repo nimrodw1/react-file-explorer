@@ -8,7 +8,6 @@ import {
 } from '@/hooks/useExplorer';
 import { useFilterParams } from '@/hooks/useFilterParams';
 import { useNodeChildren } from '@/hooks/useNodeChildren';
-import type { NodeDetails } from '@/services/IFileSystemService';
 import { useService } from '@/services/ServiceContext';
 import { isFolder, type FSNode, type NodeId } from '@/types/fileSystem';
 import { serializeFilter, isFilterActive } from '@/types/filters';
@@ -73,26 +72,6 @@ export function FileTreeContainer() {
         })),
   });
 
-  // When filter is active, batch-fetch ancestor paths for all flat results via details.
-  // combine() aggregates directly inside useQueries so the component only re-renders
-  // once per resolved query — no separate useMemo that invalidates on every array ref change.
-  const resultNodes = rootQuery.data ?? [];
-  const pathMap = useQueries({
-    queries: filterActive
-      ? resultNodes.map((node) => ({
-          queryKey: ['details', node.id],
-          queryFn: () => service.details(node.id),
-          // select keeps the cached entry compatible with useFilePreview (full NodeDetails).
-          select: (d: NodeDetails) => d.path,
-          staleTime: Infinity,
-        }))
-      : [],
-    combine: (results) =>
-      new Map<NodeId, string>(
-        results.flatMap((r, i) => (r.data !== undefined ? [[resultNodes[i].id, r.data]] : []))
-      ),
-  });
-
   const { childrenMap, loadingIds } = useMemo(() => {
     const map = new Map<NodeId, FSNode[]>();
     const loading = new Set<NodeId>();
@@ -114,28 +93,19 @@ export function FileTreeContainer() {
     if (!rootQuery.data) {
       return [];
     }
-    // In filter mode the results are a global flat list — never expand folders.
-    const rows = flattenTree(
+    return flattenTree(
       rootQuery.data,
       filterActive ? new Set<NodeId>() : expandedIds,
       loadingIds,
       childrenMap
     );
-    if (!filterActive) {
-      return rows;
-    }
-    // Attach breadcrumb to every row in filtered/search mode
-    return rows.map((row) => ({
-      ...row,
-      breadcrumb: pathMap.get(row.node.id) ?? '',
-    }));
-  }, [rootQuery.data, expandedIds, loadingIds, childrenMap, filterActive, pathMap]);
+  }, [rootQuery.data, expandedIds, loadingIds, childrenMap, filterActive]);
 
   return (
     <FileTree
       flatRows={flatRows}
       selectedId={selectedId}
-      hasBreadcrumbs={filterActive}
+      isFiltered={filterActive}
       isRootLoading={rootQuery.isLoading}
       onSelect={setSelectedId}
       onToggle={toggleExpanded}

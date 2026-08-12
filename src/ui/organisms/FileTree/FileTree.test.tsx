@@ -29,7 +29,7 @@ describe('FileTree', () => {
       <FileTree
         flatRows={[]}
         selectedId={null}
-        hasBreadcrumbs={false}
+        isFiltered={false}
         isRootLoading
         onSelect={vi.fn()}
         onToggle={vi.fn()}
@@ -43,7 +43,7 @@ describe('FileTree', () => {
       <FileTree
         flatRows={[]}
         selectedId={null}
-        hasBreadcrumbs={false}
+        isFiltered={false}
         isRootLoading={false}
         onSelect={vi.fn()}
         onToggle={vi.fn()}
@@ -57,7 +57,7 @@ describe('FileTree', () => {
       <FileTree
         flatRows={[]}
         selectedId={null}
-        hasBreadcrumbs
+        isFiltered
         isRootLoading={false}
         onSelect={vi.fn()}
         onToggle={vi.fn()}
@@ -71,7 +71,7 @@ describe('FileTree', () => {
       <FileTree
         flatRows={rows}
         selectedId={null}
-        hasBreadcrumbs={false}
+        isFiltered={false}
         isRootLoading={false}
         onSelect={vi.fn()}
         onToggle={vi.fn()}

@@ -11,38 +11,35 @@ export interface VirtualRow {
   depth: number;
   isExpanded: boolean;
   isLoading: boolean;
-  /** Ancestor path shown below the name in filtered/search mode, e.g. "Media / Photos" */
-  breadcrumb?: string;
 }
 
 export interface FileTreeProps {
   flatRows: VirtualRow[];
   selectedId: NodeId | null;
-  hasBreadcrumbs: boolean;
+  /** True when a search/category filter is active — changes the empty-state copy. */
+  isFiltered: boolean;
   isRootLoading: boolean;
   onSelect: (id: NodeId) => void;
   onToggle: (id: NodeId) => void;
 }
 
 const ROW_HEIGHT = 36;
-const ROW_HEIGHT_WITH_BREADCRUMB = 52;
 const OVERSCAN = 10;
 
 export function FileTree({
   flatRows,
   selectedId,
-  hasBreadcrumbs,
+  isFiltered,
   isRootLoading,
   onSelect,
   onToggle,
 }: FileTreeProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const rowHeight = hasBreadcrumbs ? ROW_HEIGHT_WITH_BREADCRUMB : ROW_HEIGHT;
 
   const virtualizer = useVirtualizer({
     count: flatRows.length,
     getScrollElement: () => scrollRef.current,
-    estimateSize: () => rowHeight,
+    estimateSize: () => ROW_HEIGHT,
     overscan: OVERSCAN,
   });
 
@@ -63,9 +60,9 @@ export function FileTree({
     return (
       <Center className={classes.loading}>
         <EmptyState
-          title={hasBreadcrumbs ? 'No results' : 'This folder is empty'}
+          title={isFiltered ? 'No results' : 'This folder is empty'}
           description={
-            hasBreadcrumbs
+            isFiltered
               ? 'Try a different search term or category.'
               : 'There are no files or folders here.'
           }
@@ -100,14 +97,13 @@ export function FileTree({
           {virtualItems.map((virtualItem) => {
             const row = flatRows[virtualItem.index];
             return (
-              <div key={row.node.id} data-index={virtualItem.index} style={{ height: rowHeight }}>
+              <div key={row.node.id} data-index={virtualItem.index} style={{ height: ROW_HEIGHT }}>
                 <TreeRow
                   node={row.node}
                   depth={row.depth}
                   isExpanded={row.isExpanded}
                   isSelected={row.node.id === selectedId}
                   isLoading={row.isLoading}
-                  breadcrumb={row.breadcrumb}
                   onSelect={onSelect}
                   onToggle={onToggle}
                 />
