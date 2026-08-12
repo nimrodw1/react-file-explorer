@@ -13,3 +13,7 @@ export function serializeFilter(filter: NodeFilter): string {
 }
 
 export const EMPTY_FILTER: NodeFilter = {};
+
+export function isFilterActive(filter: NodeFilter): boolean {
+  return !!(filter.query || filter.category);
+}

@@ -22,8 +22,8 @@ export function computeNodePath(id: string): string {
   while (current?.parentId) {
     const parent = NODE_MAP.get(current.parentId);
     if (!parent) break;
-    parts.unshift(parent.name);
+    parts.push(parent.name);
     current = parent;
   }
-  return parts.join(' / ');
+  return parts.reverse().join(' / ');
 }

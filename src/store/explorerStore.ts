@@ -7,7 +7,6 @@ interface ExplorerState {
 
   setSelectedId: (id: NodeId | null) => void;
   toggleExpanded: (id: NodeId) => void;
-  collapseAll: () => void;
 }
 
 export const useExplorerStore = create<ExplorerState>((set) => ({
@@ -26,6 +25,4 @@ export const useExplorerStore = create<ExplorerState>((set) => ({
       }
       return { expandedIds: next };
     }),
-
-  collapseAll: () => set({ expandedIds: new Set() }),
 }));

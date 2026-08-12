@@ -3,8 +3,6 @@ import { ExplorerLayout } from './ExplorerLayout';
 
 describe('ExplorerLayout', () => {
   const defaultProps = {
-    navWidth: 280,
-    onNavWidthChange: vi.fn(),
     omnibar: <div>Omnibar</div>,
     tree: <div>Tree</div>,
     preview: <div>Preview</div>,
@@ -23,10 +21,5 @@ describe('ExplorerLayout', () => {
   it('renders preview slot', () => {
     render(<ExplorerLayout {...defaultProps} />);
     expect(screen.getByText('Preview')).toBeInTheDocument();
-  });
-
-  it('renders resize handle with correct role', () => {
-    render(<ExplorerLayout {...defaultProps} />);
-    expect(screen.getByRole('separator', { name: /resize navigation/i })).toBeInTheDocument();
   });
 });

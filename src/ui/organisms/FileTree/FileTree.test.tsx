@@ -29,7 +29,7 @@ describe('FileTree', () => {
       <FileTree
         flatRows={[]}
         selectedId={null}
-        expandedIds={new Set()}
+        hasBreadcrumbs={false}
         isRootLoading
         onSelect={vi.fn()}
         onToggle={vi.fn()}
@@ -38,18 +38,32 @@ describe('FileTree', () => {
     expect(screen.getByRole('status', { name: /loading files/i })).toBeInTheDocument();
   });
 
-  it('renders empty state when no rows and not loading', () => {
+  it('renders empty folder state when no rows, no filter, and not loading', () => {
     render(
       <FileTree
         flatRows={[]}
         selectedId={null}
-        expandedIds={new Set()}
+        hasBreadcrumbs={false}
         isRootLoading={false}
         onSelect={vi.fn()}
         onToggle={vi.fn()}
       />,
     );
-    expect(screen.getByText(/no files match/i)).toBeInTheDocument();
+    expect(screen.getByText(/this folder is empty/i)).toBeInTheDocument();
+  });
+
+  it('renders no results state when no rows and filter is active', () => {
+    render(
+      <FileTree
+        flatRows={[]}
+        selectedId={null}
+        hasBreadcrumbs={true}
+        isRootLoading={false}
+        onSelect={vi.fn()}
+        onToggle={vi.fn()}
+      />,
+    );
+    expect(screen.getByText(/no results/i)).toBeInTheDocument();
   });
 
   it('renders tree role', () => {
@@ -57,7 +71,7 @@ describe('FileTree', () => {
       <FileTree
         flatRows={rows}
         selectedId={null}
-        expandedIds={new Set()}
+        hasBreadcrumbs={false}
         isRootLoading={false}
         onSelect={vi.fn()}
         onToggle={vi.fn()}

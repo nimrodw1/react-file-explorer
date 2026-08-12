@@ -1,10 +1,8 @@
 import { type FSNode, isFile } from '@/types/fileSystem';
-import type { NodeFilter } from '@/types/filters';
+import { isFilterActive, type NodeFilter } from '@/types/filters';
 import { NODE_MAP } from './mockData';
 
-export function isFilterActive(filter: NodeFilter): boolean {
-  return !!(filter.query || filter.category);
-}
+export { isFilterActive };
 
 export function matchesFilter(node: FSNode, filter: NodeFilter): boolean {
   const { query, category } = filter;

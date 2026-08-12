@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
 import { Box, Text } from '@mantine/core';
 import { ExplorerLayout } from './ExplorerLayout';
 
@@ -29,16 +28,11 @@ const Placeholder = ({ label }: { label: string }) => (
 );
 
 export const Default: Story = {
-  render: () => {
-    const [width, setWidth] = useState(280);
-    return (
-      <ExplorerLayout
-        navWidth={width}
-        onNavWidthChange={setWidth}
-        omnibar={<Placeholder label="Omnibar" />}
-        tree={<Placeholder label="File Tree" />}
-        preview={<Placeholder label="Preview" />}
-      />
-    );
-  },
+  render: () => (
+    <ExplorerLayout
+      omnibar={<Placeholder label="Omnibar" />}
+      tree={<Placeholder label="File Tree" />}
+      preview={<Placeholder label="Preview" />}
+    />
+  ),
 };

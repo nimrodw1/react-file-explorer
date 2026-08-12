@@ -1,9 +1,9 @@
 import { FilePreview } from '@/ui/organisms/FilePreview/FilePreview';
-import { useExplorer } from '@/hooks/useExplorer';
+import { useSelectedId } from '@/hooks/useExplorer';
 import { useFilePreview } from '@/hooks/useFilePreview';
 
 export function FilePreviewContainer() {
-  const { selectedId } = useExplorer();
+  const selectedId = useSelectedId();
   const { data, isLoading, isFetching } = useFilePreview(selectedId);
 
   const nothingSelected = selectedId === null;

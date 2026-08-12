@@ -1,7 +1,8 @@
 import { useRef } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { Center, Loader, ScrollArea, Text } from '@mantine/core';
+import { Center, Loader, ScrollArea } from '@mantine/core';
 import { TreeRow } from '@/ui/molecules/TreeRow/TreeRow';
+import { EmptyState } from '@/ui/molecules/EmptyState/EmptyState';
 import type { FSNode, NodeId } from '@/types/fileSystem';
 import classes from './FileTree.module.css';
 
@@ -17,7 +18,7 @@ export interface VirtualRow {
 export interface FileTreeProps {
   flatRows: VirtualRow[];
   selectedId: NodeId | null;
-  expandedIds: Set<NodeId>;
+  hasBreadcrumbs: boolean;
   isRootLoading: boolean;
   onSelect: (id: NodeId) => void;
   onToggle: (id: NodeId) => void;
@@ -30,12 +31,12 @@ const OVERSCAN = 10;
 export function FileTree({
   flatRows,
   selectedId,
+  hasBreadcrumbs,
   isRootLoading,
   onSelect,
   onToggle,
 }: FileTreeProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const hasBreadcrumbs = flatRows.some((r) => r.breadcrumb !== undefined);
   const rowHeight = hasBreadcrumbs ? ROW_HEIGHT_WITH_BREADCRUMB : ROW_HEIGHT;
 
   const virtualizer = useVirtualizer({
@@ -47,8 +48,8 @@ export function FileTree({
 
   if (isRootLoading) {
     return (
-      <Center className={classes.loading}>
-        <Loader type="dots" aria-label="Loading files…" />
+      <Center className={classes.loading} role="status" aria-label="Loading files…">
+        <Loader type="dots" aria-hidden />
       </Center>
     );
   }
@@ -56,9 +57,14 @@ export function FileTree({
   if (flatRows.length === 0) {
     return (
       <Center className={classes.loading}>
-        <Text size="sm" c="dimmed">
-          No files match your filter.
-        </Text>
+        <EmptyState
+          title={hasBreadcrumbs ? 'No results' : 'This folder is empty'}
+          description={
+            hasBreadcrumbs
+              ? 'Try a different search term or category.'
+              : 'There are no files or folders here.'
+          }
+        />
       </Center>
     );
   }

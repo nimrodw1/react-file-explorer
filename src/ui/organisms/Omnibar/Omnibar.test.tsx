@@ -30,7 +30,7 @@ describe('Omnibar', () => {
     expect(onQueryChange).toHaveBeenCalledTimes(4);
   });
 
-  it('renders filter chips', () => {
+  it('renders a category filter combobox', () => {
     render(
       <Omnibar
         query=""
@@ -39,10 +39,10 @@ describe('Omnibar', () => {
         onCategoryChange={vi.fn()}
       />,
     );
-    expect(screen.getByRole('button', { name: /documents/i })).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: /filter by type/i })).toBeInTheDocument();
   });
 
-  it('calls onCategoryChange when a chip is clicked', async () => {
+  it('calls onCategoryChange when a category is selected', async () => {
     const user = userEvent.setup();
     const onCategoryChange = vi.fn();
     render(
@@ -53,7 +53,8 @@ describe('Omnibar', () => {
         onCategoryChange={onCategoryChange}
       />,
     );
-    await user.click(screen.getByRole('button', { name: /music/i }));
+    await user.click(screen.getByRole('combobox', { name: /filter by type/i }));
+    await user.click(screen.getByRole('option', { name: /music/i }));
     expect(onCategoryChange).toHaveBeenCalledWith('music');
   });
 });
