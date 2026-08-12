@@ -5,6 +5,7 @@ import { useExplorer } from '@/hooks/useExplorer';
 import { useFilterParams } from '@/hooks/useFilterParams';
 import { useNodeChildren } from '@/hooks/useNodeChildren';
 import { useService } from '@/services/ServiceContext';
+import type { NodeDetails } from '@/services/IFileSystemService';
 import { serializeFilter, EMPTY_FILTER } from '@/types/filters';
 import type { FSNode, NodeId } from '@/types/fileSystem';
 import { isFolder } from '@/types/fileSystem';
@@ -68,7 +69,11 @@ export function FileTreeContainer() {
     queries: filterActive
       ? resultNodes.map((node) => ({
           queryKey: ['details', node.id],
-          queryFn: () => service.details(node.id).then((d) => d.path),
+          queryFn: () => service.details(node.id),
+          // select transforms the output to a string without changing what is stored
+          // in the cache — keeps this cache entry compatible with useFilePreview,
+          // which stores the full NodeDetails under the same key.
+          select: (d: NodeDetails) => d.path,
           staleTime: Infinity,
         }))
       : [],
