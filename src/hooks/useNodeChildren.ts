@@ -3,18 +3,14 @@ import { useService } from '@/services/ServiceContext';
 import { serializeFilter, type NodeFilter } from '@/types/filters';
 import type { NodeId } from '@/types/fileSystem';
 
-const ROOT_KEY = '__root__';
-
 export function useNodeChildren(folderId: NodeId | null, filter: NodeFilter) {
   const service = useService();
   const filterKey = serializeFilter(filter);
 
   return useQuery({
-    queryKey: ['children', folderId ?? ROOT_KEY, filterKey],
+    queryKey: ['explore', folderId ?? null, filterKey],
     queryFn: () =>
-      folderId === null
-        ? service.getRootChildren(filter)
-        : service.getChildren(folderId, filter),
+      service.explore(filter, { parentNodeId: folderId ?? undefined }),
     staleTime: 30_000,
   });
 }

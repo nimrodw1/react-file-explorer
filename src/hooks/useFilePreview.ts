@@ -6,8 +6,8 @@ export function useFilePreview(nodeId: NodeId | null) {
   const service = useService();
 
   return useQuery({
-    queryKey: ['node', nodeId],
-    queryFn: () => service.getNodeById(nodeId!),
+    queryKey: ['details', nodeId],
+    queryFn: () => service.details(nodeId!),
     enabled: nodeId !== null,
     staleTime: 60_000,
     // Keep showing the previous node's data while the new node is being fetched,

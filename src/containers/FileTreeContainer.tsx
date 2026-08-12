@@ -56,19 +56,19 @@ export function FileTreeContainer() {
 
   const childQueries = useQueries({
     queries: expandedList.map((id) => ({
-      queryKey: ['children', id, filterKey],
-      queryFn: () => service.getChildren(id, activeFilter),
+      queryKey: ['explore', id, filterKey],
+      queryFn: () => service.explore(activeFilter, { parentNodeId: id }),
       staleTime: 30_000,
     })),
   });
 
-  // When filter is active, batch-fetch ancestor paths for all flat results
+  // When filter is active, batch-fetch ancestor paths for all flat results via details
   const resultNodes = rootQuery.data ?? [];
   const pathQueries = useQueries({
     queries: filterActive
       ? resultNodes.map((node) => ({
-          queryKey: ['path', node.id],
-          queryFn: () => service.getNodePath(node.id),
+          queryKey: ['details', node.id],
+          queryFn: () => service.details(node.id).then((d) => d.path),
           staleTime: Infinity,
         }))
       : [],
