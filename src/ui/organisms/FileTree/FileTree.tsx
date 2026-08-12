@@ -1,6 +1,6 @@
-import { useRef, type ComponentProps } from 'react';
+import { useEffect, useRef, type ComponentProps } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { Center, Loader, ScrollArea } from '@mantine/core';
+import { Center, Loader, ScrollArea, Text } from '@mantine/core';
 import type { FSNode, NodeId } from '@/types/fileSystem';
 import { EmptyState } from '@/ui/molecules/EmptyState/EmptyState';
 import { TreeRow } from '@/ui/molecules/TreeRow/TreeRow';
@@ -19,6 +19,12 @@ export interface FileTreeProps {
   /** True when a search/category filter is active — changes the empty-state copy. */
   isFiltered: boolean;
   isRootLoading: boolean;
+  /** Total number of matching results across all pages (for the result count footer). */
+  totalCount?: number;
+  /** True while the next page of infinite-scroll results is being fetched. */
+  isFetchingNextPage?: boolean;
+  /** Called when the user scrolls within OVERSCAN rows of the end of the loaded list. */
+  onNearEnd?: () => void;
   onSelect: (id: NodeId) => void;
   onToggle: (id: NodeId) => void;
 }
@@ -31,6 +37,9 @@ export function FileTree({
   selectedId,
   isFiltered,
   isRootLoading,
+  totalCount,
+  isFetchingNextPage = false,
+  onNearEnd,
   onSelect,
   onToggle,
 }: FileTreeProps) {
@@ -42,6 +51,16 @@ export function FileTree({
     estimateSize: () => ROW_HEIGHT,
     overscan: OVERSCAN,
   });
+
+  const virtualItems = virtualizer.getVirtualItems();
+  const lastVirtualIndex = virtualItems[virtualItems.length - 1]?.index ?? -1;
+
+  // Trigger the next-page fetch when the user scrolls to within OVERSCAN rows of the end.
+  useEffect(() => {
+    if (onNearEnd && flatRows.length > 0 && lastVirtualIndex >= flatRows.length - OVERSCAN) {
+      onNearEnd();
+    }
+  }, [lastVirtualIndex, flatRows.length, onNearEnd]);
 
   if (isRootLoading) {
     return (
@@ -71,8 +90,8 @@ export function FileTree({
     );
   }
 
-  const virtualItems = virtualizer.getVirtualItems();
   const totalSize = virtualizer.getTotalSize();
+  const showResultCount = isFiltered && totalCount !== undefined;
 
   return (
     <ScrollArea
@@ -84,6 +103,13 @@ export function FileTree({
       data-testid="file-tree"
       viewportProps={{ 'data-testid': 'file-tree-viewport' } as unknown as ComponentProps<'div'>}
     >
+      {showResultCount && (
+        <Text size="xs" c="dimmed" className={classes.resultCount}>
+          {flatRows.length === totalCount
+            ? `${totalCount} result${totalCount !== 1 ? 's' : ''}`
+            : `${flatRows.length} of ${totalCount} results`}
+        </Text>
+      )}
       <div style={{ height: totalSize, position: 'relative' }} className={classes.listWrapper}>
         <div
           style={{
@@ -112,6 +138,11 @@ export function FileTree({
           })}
         </div>
       </div>
+      {isFetchingNextPage && (
+        <Center py="sm" data-testid="tree-loading-more">
+          <Loader size="xs" type="dots" aria-hidden />
+        </Center>
+      )}
     </ScrollArea>
   );
 }

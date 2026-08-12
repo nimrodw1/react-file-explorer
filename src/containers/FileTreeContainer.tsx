@@ -10,7 +10,7 @@ import { useFilterParams } from '@/hooks/useFilterParams';
 import { useNodeChildren } from '@/hooks/useNodeChildren';
 import { useService } from '@/services/ServiceContext';
 import { isFolder, type FSNode, type NodeId } from '@/types/fileSystem';
-import { serializeFilter, isFilterActive } from '@/types/filters';
+import { serializeFilter } from '@/types/filters';
 import { FileTree, type VirtualRow } from '@/ui/organisms/FileTree/FileTree';
 
 function flattenTree(
@@ -20,7 +20,6 @@ function flattenTree(
   childrenMap: Map<NodeId, FSNode[]>
 ): VirtualRow[] {
   const rows: VirtualRow[] = [];
-  // Stack-based traversal: avoids call-stack limits on deep trees
   const stack: [FSNode, number][] = [...roots].reverse().map((n) => [n, 0]);
 
   while (stack.length > 0) {
@@ -45,6 +44,7 @@ function flattenTree(
   return rows;
 }
 
+/** Renders the hierarchical file tree. Only mounted when no filter is active. */
 export function FileTreeContainer() {
   const selectedId = useSelectedId();
   const expandedIds = useExpandedIds();
@@ -53,23 +53,16 @@ export function FileTreeContainer() {
   const { activeFilter } = useFilterParams();
   const service = useService();
   const filterKey = serializeFilter(activeFilter);
-  const filterActive = isFilterActive(activeFilter);
 
   const rootQuery = useNodeChildren(null, activeFilter);
-
   const expandedList = useMemo(() => [...expandedIds], [expandedIds]);
 
-  // Child queries are only meaningful in tree-browse mode. When a filter is
-  // active the service returns a global flat result set and ignores parentNodeId,
-  // so dispatching per-folder queries would populate childrenMap with wrong data.
   const childQueries = useQueries({
-    queries: filterActive
-      ? []
-      : expandedList.map((id) => ({
-          queryKey: ['explore', id, filterKey],
-          queryFn: () => service.explore(activeFilter, { parentNodeId: id }),
-          staleTime: 30_000,
-        })),
+    queries: expandedList.map((id) => ({
+      queryKey: ['explore', id, filterKey],
+      queryFn: () => service.explore(activeFilter, { parentNodeId: id }),
+      staleTime: 30_000,
+    })),
   });
 
   const { childrenMap, loadingIds } = useMemo(() => {
@@ -93,19 +86,14 @@ export function FileTreeContainer() {
     if (!rootQuery.data) {
       return [];
     }
-    return flattenTree(
-      rootQuery.data,
-      filterActive ? new Set<NodeId>() : expandedIds,
-      loadingIds,
-      childrenMap
-    );
-  }, [rootQuery.data, expandedIds, loadingIds, childrenMap, filterActive]);
+    return flattenTree(rootQuery.data, expandedIds, loadingIds, childrenMap);
+  }, [rootQuery.data, expandedIds, loadingIds, childrenMap]);
 
   return (
     <FileTree
       flatRows={flatRows}
       selectedId={selectedId}
-      isFiltered={filterActive}
+      isFiltered={false}
       isRootLoading={rootQuery.isLoading}
       onSelect={setSelectedId}
       onToggle={toggleExpanded}

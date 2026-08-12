@@ -13,3 +13,8 @@
   height: 100%;
   padding: rem(24px);
 }
+
+.resultCount {
+  padding: rem(6px) rem(8px) rem(2px);
+  display: block;
+}
