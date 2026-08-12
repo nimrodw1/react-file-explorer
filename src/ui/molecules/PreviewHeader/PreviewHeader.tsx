@@ -1,13 +1,18 @@
 import { Group, Stack, Text } from '@mantine/core';
+import { isFile, type FSNode } from '@/types/fileSystem';
 import { FileCategoryIcon } from '@/ui/atoms/FileCategoryIcon/FileCategoryIcon';
-import type { FSNode } from '@/types/fileSystem';
-import { isFile } from '@/types/fileSystem';
 import classes from './PreviewHeader.module.css';
 
 function formatSize(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  if (bytes < 1024 * 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  if (bytes < 1024) {
+    return `${bytes} B`;
+  }
+  if (bytes < 1024 * 1024) {
+    return `${(bytes / 1024).toFixed(1)} KB`;
+  }
+  if (bytes < 1024 * 1024 * 1024) {
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  }
   return `${(bytes / (1024 * 1024 * 1024)).toFixed(1)} GB`;
 }
 
@@ -34,7 +39,13 @@ export function PreviewHeader({ node }: PreviewHeaderProps) {
         className={classes.icon}
       />
       <Stack gap={2} className={classes.meta}>
-        <Text fw={600} size="md" className={classes.name} title={node.name} data-testid="preview-name">
+        <Text
+          fw={600}
+          size="md"
+          className={classes.name}
+          title={node.name}
+          data-testid="preview-name"
+        >
           {node.name}
         </Text>
         <Group gap="sm">

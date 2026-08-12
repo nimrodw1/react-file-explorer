@@ -30,8 +30,7 @@ describe('Filtering', () => {
       cy.typeSearch(MOCK.searchTerm.matchesMusic); // "song"
 
       cy.get(SEL.treeRow).each(($row) => {
-        const name = $row.attr('data-node-name') ?? '';
-        expect(name.toLowerCase()).to.include('song');
+        cy.wrap($row.attr('data-node-name') ?? '').should('match', /song/i);
       });
     });
 
@@ -83,7 +82,7 @@ describe('Filtering', () => {
     });
 
     it('"song" + Images returns no results — triggers "No results" empty state', () => {
-      cy.typeSearch(MOCK.searchTerm.matchesMusic);   // all music files
+      cy.typeSearch(MOCK.searchTerm.matchesMusic); // all music files
       cy.selectCategory(MOCK.categories.image.label); // incompatible category
 
       cy.get(SEL.treeRow).should('not.exist');

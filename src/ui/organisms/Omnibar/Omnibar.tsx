@@ -1,5 +1,5 @@
-import { Select, Stack, TextInput } from '@mantine/core';
 import { IconFilter, IconSearch } from '@tabler/icons-react';
+import { Select, Stack, TextInput } from '@mantine/core';
 import type { FileCategory } from '@/types/fileSystem';
 import classes from './Omnibar.module.css';
 

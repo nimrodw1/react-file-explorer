@@ -1,6 +1,6 @@
-import { FilePreview } from '@/ui/organisms/FilePreview/FilePreview';
 import { useSelectedId } from '@/hooks/useExplorer';
 import { useFilePreview } from '@/hooks/useFilePreview';
+import { FilePreview } from '@/ui/organisms/FilePreview/FilePreview';
 
 export function FilePreviewContainer() {
   const selectedId = useSelectedId();

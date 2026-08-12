@@ -1,6 +1,6 @@
 import { Center, Stack, Text } from '@mantine/core';
-import { FileCategoryIcon } from '@/ui/atoms/FileCategoryIcon/FileCategoryIcon';
 import type { FileNode } from '@/types/fileSystem';
+import { FileCategoryIcon } from '@/ui/atoms/FileCategoryIcon/FileCategoryIcon';
 import classes from '../FilePreview.module.css';
 
 interface DocumentPreviewProps {

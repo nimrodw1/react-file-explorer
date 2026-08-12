@@ -1,13 +1,12 @@
 import { Stack } from '@mantine/core';
-import { PreviewHeader } from '@/ui/molecules/PreviewHeader/PreviewHeader';
+import { isFile, type FSNode } from '@/types/fileSystem';
 import { EmptyState } from '@/ui/molecules/EmptyState/EmptyState';
-import type { FSNode } from '@/types/fileSystem';
-import { isFile } from '@/types/fileSystem';
-import { DocumentPreview } from './previews/DocumentPreview';
-import { MusicPreview } from './previews/MusicPreview';
-import { ImagePreview } from './previews/ImagePreview';
-import { VideoPreview } from './previews/VideoPreview';
+import { PreviewHeader } from '@/ui/molecules/PreviewHeader/PreviewHeader';
 import { FilePreviewSkeleton } from './FilePreviewSkeleton';
+import { DocumentPreview } from './previews/DocumentPreview';
+import { ImagePreview } from './previews/ImagePreview';
+import { MusicPreview } from './previews/MusicPreview';
+import { VideoPreview } from './previews/VideoPreview';
 import classes from './FilePreview.module.css';
 
 export interface FilePreviewProps {
@@ -54,10 +53,7 @@ export function FilePreview({ node, isLoading, isFetching = false }: FilePreview
   }
 
   return (
-    <Stack
-      gap={0}
-      className={`${classes.root} ${isFetching ? classes.fetching : ''}`}
-    >
+    <Stack gap={0} className={`${classes.root} ${isFetching ? classes.fetching : ''}`}>
       <PreviewHeader node={node} />
       <div className={classes.body}>
         <CategoryPreviewRouter node={node} />

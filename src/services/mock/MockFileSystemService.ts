@@ -1,5 +1,5 @@
-import { NodeFilterSchema, type NodeFilter } from '@/types/filters';
 import type { FSNode, NodeId } from '@/types/fileSystem';
+import { NodeFilterSchema, type NodeFilter } from '@/types/filters';
 import type { IFileSystemService, NodeDetails } from '../IFileSystemService';
 import { CHILDREN_MAP, NODE_MAP, ROOT_IDS, computeNodePath } from './mockData';
 import { isFilterActive, searchAll } from './utils';
@@ -38,7 +38,9 @@ export class MockFileSystemService implements IFileSystemService {
   async details(nodeId: NodeId): Promise<NodeDetails> {
     await randomDelay();
     const node = NODE_MAP.get(nodeId);
-    if (!node) throw new Error(`Node not found: ${nodeId}`);
+    if (!node) {
+      throw new Error(`Node not found: ${nodeId}`);
+    }
     return { node, path: computeNodePath(nodeId) };
   }
 }

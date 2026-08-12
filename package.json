@@ -15,12 +15,14 @@
     "format:write": "oxfmt -c oxfmt.config.mjs --write \"**/*.{ts,tsx}\"",
     "vitest": "vitest run",
     "vitest:watch": "vitest",
-    "test": "npm run typecheck && npm run format:test && npm run lint && npm run vitest && npm run build",
+    "test": "npm run typecheck && npm run format:test && npm run lint && npm run vitest && npm run build && npm run test:e2e",
+    "test:e2e": "start-server-and-test preview http://localhost:4173 cypress:run:ci",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
     "generate:mock": "node scripts/generateMockData.mjs",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run --browser electron"
+    "cypress:open": "cypress open --config baseUrl=http://localhost:4173",
+    "cypress:run": "cypress run --browser chrome --config baseUrl=http://localhost:4173",
+    "cypress:run:ci": "cypress run --browser chrome --config baseUrl=http://localhost:4173"
   },
   "dependencies": {
     "@mantine/core": "9.5.1",
@@ -58,6 +60,7 @@
     "postcss-simple-vars": "^7.0.1",
     "prop-types": "^15.8.1",
     "sass-embedded": "^1.100.0",
+    "start-server-and-test": "^2.0.0",
     "storybook": "^10.0.0",
     "stylelint": "^17.0.0",
     "stylelint-config-standard-scss": "^17.0.0",

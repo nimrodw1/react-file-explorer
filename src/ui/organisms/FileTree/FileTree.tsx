@@ -1,9 +1,9 @@
-import { useRef } from 'react';
+import { useRef, type ComponentProps } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { Center, Loader, ScrollArea } from '@mantine/core';
-import { TreeRow } from '@/ui/molecules/TreeRow/TreeRow';
-import { EmptyState } from '@/ui/molecules/EmptyState/EmptyState';
 import type { FSNode, NodeId } from '@/types/fileSystem';
+import { EmptyState } from '@/ui/molecules/EmptyState/EmptyState';
+import { TreeRow } from '@/ui/molecules/TreeRow/TreeRow';
 import classes from './FileTree.module.css';
 
 export interface VirtualRow {
@@ -48,7 +48,12 @@ export function FileTree({
 
   if (isRootLoading) {
     return (
-      <Center className={classes.loading} role="status" aria-label="Loading files…" data-testid="tree-loading">
+      <Center
+        className={classes.loading}
+        role="status"
+        aria-label="Loading files…"
+        data-testid="tree-loading"
+      >
         <Loader type="dots" aria-hidden />
       </Center>
     );
@@ -80,7 +85,7 @@ export function FileTree({
       role="tree"
       aria-label="File explorer"
       data-testid="file-tree"
-      viewportProps={{ 'data-testid': 'file-tree-viewport' }}
+      viewportProps={{ 'data-testid': 'file-tree-viewport' } as unknown as ComponentProps<'div'>}
     >
       <div style={{ height: totalSize, position: 'relative' }} className={classes.listWrapper}>
         <div

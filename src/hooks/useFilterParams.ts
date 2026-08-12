@@ -1,6 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
-import { NodeFilterSchema, EMPTY_FILTER, type NodeFilter } from '@/types/filters';
 import type { FileCategory } from '@/types/fileSystem';
+import { NodeFilterSchema, EMPTY_FILTER, type NodeFilter } from '@/types/filters';
 
 export function useFilterParams() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -16,11 +16,14 @@ export function useFilterParams() {
     setSearchParams(
       (prev) => {
         const next = new URLSearchParams(prev);
-        if (query) next.set('query', query);
-        else next.delete('query');
+        if (query) {
+          next.set('query', query);
+        } else {
+          next.delete('query');
+        }
         return next;
       },
-      { replace: true }, // typing never adds history entries
+      { replace: true } // typing never adds history entries
     );
   };
 
@@ -28,8 +31,11 @@ export function useFilterParams() {
     // replace: false (default) → back button can undo a category selection
     setSearchParams((prev) => {
       const next = new URLSearchParams(prev);
-      if (category) next.set('category', category);
-      else next.delete('category');
+      if (category) {
+        next.set('category', category);
+      } else {
+        next.delete('category');
+      }
       return next;
     });
   };

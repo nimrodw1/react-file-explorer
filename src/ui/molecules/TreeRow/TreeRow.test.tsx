@@ -1,7 +1,7 @@
 import { render, screen } from '@test-utils';
 import userEvent from '@testing-library/user-event';
-import { TreeRow } from './TreeRow';
 import type { FileNode, FolderNode } from '@/types/fileSystem';
+import { TreeRow } from './TreeRow';
 
 const fileNode: FileNode = {
   id: 'f1',
@@ -32,7 +32,7 @@ describe('TreeRow', () => {
         isSelected={false}
         onToggle={vi.fn()}
         onSelect={vi.fn()}
-      />,
+      />
     );
     expect(screen.getByText('Project Brief.pdf')).toBeInTheDocument();
   });
@@ -48,7 +48,7 @@ describe('TreeRow', () => {
         isSelected={false}
         onToggle={vi.fn()}
         onSelect={onSelect}
-      />,
+      />
     );
     await user.click(screen.getByRole('treeitem'));
     expect(onSelect).toHaveBeenCalledWith('f1');
@@ -65,7 +65,7 @@ describe('TreeRow', () => {
         isSelected={false}
         onToggle={onToggle}
         onSelect={vi.fn()}
-      />,
+      />
     );
     await user.click(screen.getByRole('button', { name: /expand documents/i }));
     expect(onToggle).toHaveBeenCalledWith('folder1');
@@ -80,7 +80,7 @@ describe('TreeRow', () => {
         isSelected
         onToggle={vi.fn()}
         onSelect={vi.fn()}
-      />,
+      />
     );
     expect(screen.getByRole('treeitem')).toHaveAttribute('aria-selected', 'true');
   });
@@ -94,7 +94,7 @@ describe('TreeRow', () => {
         isSelected={false}
         onToggle={vi.fn()}
         onSelect={vi.fn()}
-      />,
+      />
     );
     expect(screen.getByRole('treeitem')).toHaveAttribute('aria-expanded', 'true');
   });
@@ -108,7 +108,7 @@ describe('TreeRow', () => {
         isSelected={false}
         onToggle={vi.fn()}
         onSelect={vi.fn()}
-      />,
+      />
     );
     expect(screen.getByRole('treeitem')).not.toHaveAttribute('aria-expanded');
   });
@@ -124,7 +124,7 @@ describe('TreeRow', () => {
         isSelected={false}
         onToggle={onToggle}
         onSelect={vi.fn()}
-      />,
+      />
     );
     await user.type(screen.getByRole('treeitem'), '{ArrowRight}');
     expect(onToggle).toHaveBeenCalledWith('folder1');

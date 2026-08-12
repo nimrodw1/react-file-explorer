@@ -6,9 +6,13 @@ export { isFilterActive };
 
 export function matchesFilter(node: FSNode, filter: NodeFilter): boolean {
   const { query, category } = filter;
-  if (query && !node.name.toLowerCase().includes(query.toLowerCase())) return false;
+  if (query && !node.name.toLowerCase().includes(query.toLowerCase())) {
+    return false;
+  }
   // Category only applies to files; folders are excluded when a category is selected
-  if (category && (!isFile(node) || node.category !== category)) return false;
+  if (category && (!isFile(node) || node.category !== category)) {
+    return false;
+  }
   return true;
 }
 

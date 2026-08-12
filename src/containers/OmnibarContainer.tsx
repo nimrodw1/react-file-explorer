@@ -1,7 +1,7 @@
 import { useTransition } from 'react';
-import { Omnibar } from '@/ui/organisms/Omnibar/Omnibar';
 import { useFilterParams } from '@/hooks/useFilterParams';
 import type { FileCategory } from '@/types/fileSystem';
+import { Omnibar } from '@/ui/organisms/Omnibar/Omnibar';
 
 export function OmnibarContainer() {
   const { activeFilter, setQueryFilter, setCategoryFilter } = useFilterParams();

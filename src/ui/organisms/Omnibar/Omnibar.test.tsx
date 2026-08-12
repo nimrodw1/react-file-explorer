@@ -5,12 +5,7 @@ import { Omnibar } from './Omnibar';
 describe('Omnibar', () => {
   it('renders a search input', () => {
     render(
-      <Omnibar
-        query=""
-        category={undefined}
-        onQueryChange={vi.fn()}
-        onCategoryChange={vi.fn()}
-      />,
+      <Omnibar query="" category={undefined} onQueryChange={vi.fn()} onCategoryChange={vi.fn()} />
     );
     expect(screen.getByRole('textbox', { name: /search files/i })).toBeInTheDocument();
   });
@@ -24,7 +19,7 @@ describe('Omnibar', () => {
         category={undefined}
         onQueryChange={onQueryChange}
         onCategoryChange={vi.fn()}
-      />,
+      />
     );
     await user.type(screen.getByRole('textbox', { name: /search/i }), 'proj');
     expect(onQueryChange).toHaveBeenCalledTimes(4);
@@ -32,12 +27,7 @@ describe('Omnibar', () => {
 
   it('renders a category filter combobox', () => {
     render(
-      <Omnibar
-        query=""
-        category={undefined}
-        onQueryChange={vi.fn()}
-        onCategoryChange={vi.fn()}
-      />,
+      <Omnibar query="" category={undefined} onQueryChange={vi.fn()} onCategoryChange={vi.fn()} />
     );
     expect(screen.getByRole('combobox', { name: /filter by type/i })).toBeInTheDocument();
   });
@@ -51,7 +41,7 @@ describe('Omnibar', () => {
         category={undefined}
         onQueryChange={vi.fn()}
         onCategoryChange={onCategoryChange}
-      />,
+      />
     );
     await user.click(screen.getByRole('combobox', { name: /filter by type/i }));
     await user.click(screen.getByRole('option', { name: /music/i }));

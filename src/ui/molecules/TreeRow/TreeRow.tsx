@@ -1,10 +1,9 @@
 import React from 'react';
-import { ActionIcon, Group, Loader, Stack, Text } from '@mantine/core';
 import { IconChevronDown, IconChevronRight } from '@tabler/icons-react';
+import { ActionIcon, Group, Loader, Stack, Text } from '@mantine/core';
+import { isFolder, type FSNode } from '@/types/fileSystem';
 import { FileCategoryIcon } from '@/ui/atoms/FileCategoryIcon/FileCategoryIcon';
 import { NodeName } from '@/ui/atoms/NodeName/NodeName';
-import type { FSNode } from '@/types/fileSystem';
-import { isFolder } from '@/types/fileSystem';
 import classes from './TreeRow.module.css';
 
 export interface TreeRowProps {
@@ -33,7 +32,9 @@ function TreeRowInner({
 
   const handleToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (folder) onToggle(node.id);
+    if (folder) {
+      onToggle(node.id);
+    }
   };
 
   const handleSelect = () => onSelect(node.id);
@@ -43,8 +44,12 @@ function TreeRowInner({
       e.preventDefault();
       handleSelect();
     }
-    if (e.key === 'ArrowRight' && folder && !isExpanded) onToggle(node.id);
-    if (e.key === 'ArrowLeft' && folder && isExpanded) onToggle(node.id);
+    if (e.key === 'ArrowRight' && folder && !isExpanded) {
+      onToggle(node.id);
+    }
+    if (e.key === 'ArrowLeft' && folder && isExpanded) {
+      onToggle(node.id);
+    }
   };
 
   return (
@@ -92,12 +97,7 @@ function TreeRowInner({
         <Stack gap={0} className={classes.labelStack}>
           <NodeName name={node.name} />
           {breadcrumb !== undefined && (
-            <Text
-              size="xs"
-              c="dimmed"
-              className={classes.breadcrumb}
-              title={breadcrumb || 'Root'}
-            >
+            <Text size="xs" c="dimmed" className={classes.breadcrumb} title={breadcrumb || 'Root'}>
               {breadcrumb || 'Root'}
             </Text>
           )}
@@ -116,5 +116,5 @@ export const TreeRow = React.memo(
     prev.isSelected === next.isSelected &&
     prev.isLoading === next.isLoading &&
     prev.breadcrumb === next.breadcrumb &&
-    prev.depth === next.depth,
+    prev.depth === next.depth
 );

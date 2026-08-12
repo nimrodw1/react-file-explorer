@@ -22,11 +22,13 @@ describe('Tree browsing', () => {
     });
 
     it('clicking the toggle reveals child rows', () => {
-      cy.get(SEL.treeRow).its('length').then((before) => {
-        cy.toggleFolder(FOLDER);
+      cy.get(SEL.treeRow)
+        .its('length')
+        .then((before) => {
+          cy.toggleFolder(FOLDER);
 
-        cy.get(SEL.treeRow).should('have.length.greaterThan', before);
-      });
+          cy.get(SEL.treeRow).should('have.length.greaterThan', before);
+        });
     });
 
     it('the folder row is marked aria-expanded after toggling open', () => {
@@ -45,11 +47,13 @@ describe('Tree browsing', () => {
     });
 
     it('clicking the toggle again hides child rows', () => {
-      cy.get(SEL.treeRow).its('length').then((expanded) => {
-        cy.toggleFolder(FOLDER);
+      cy.get(SEL.treeRow)
+        .its('length')
+        .then((expanded) => {
+          cy.toggleFolder(FOLDER);
 
-        cy.get(SEL.treeRow).should('have.length.lessThan', expanded);
-      });
+          cy.get(SEL.treeRow).should('have.length.lessThan', expanded);
+        });
     });
 
     it('marks the folder row as collapsed again', () => {

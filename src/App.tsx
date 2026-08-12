@@ -1,10 +1,10 @@
 import '@mantine/core/styles.css';
 
-import { MantineProvider } from '@mantine/core';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { MantineProvider } from '@mantine/core';
 import { Router } from './Router';
-import { theme } from './theme';
 import { ServiceProvider } from './services/ServiceContext';
+import { theme } from './theme';
 
 const queryClient = new QueryClient({
   defaultOptions: {

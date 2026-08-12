@@ -43,11 +43,14 @@ describe('Scrolling & virtualization', () => {
     });
 
     it('renders different rows after scrolling to the bottom', () => {
-      cy.get(SEL.treeRow).first().invoke('attr', 'data-node-name').then((firstName) => {
-        cy.scrollTree('bottom');
+      cy.get(SEL.treeRow)
+        .first()
+        .invoke('attr', 'data-node-name')
+        .then((firstName) => {
+          cy.scrollTree('bottom');
 
-        cy.get(SEL.treeRow).first().invoke('attr', 'data-node-name').should('not.eq', firstName);
-      });
+          cy.get(SEL.treeRow).first().invoke('attr', 'data-node-name').should('not.eq', firstName);
+        });
     });
 
     it('DOM row count stays bounded after scrolling to the bottom', () => {

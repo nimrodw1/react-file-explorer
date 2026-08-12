@@ -26,7 +26,7 @@ describe('Performance at scale', () => {
       cy.get(SEL.treeRow, { timeout: TREE_LOAD_BUDGET_MS }).should('have.length.greaterThan', 0);
 
       cy.then(() => {
-        expect(Date.now() - start).to.be.lessThan(TREE_LOAD_BUDGET_MS);
+        cy.wrap(Date.now() - start).should('be.lessThan', TREE_LOAD_BUDGET_MS);
       });
     });
 
@@ -48,10 +48,13 @@ describe('Performance at scale', () => {
 
       cy.selectCategory(MOCK.categories.music.label);
 
-      cy.get(SEL.treeRow, { timeout: FILTER_RESPONSE_BUDGET_MS }).should('have.length.greaterThan', 0);
+      cy.get(SEL.treeRow, { timeout: FILTER_RESPONSE_BUDGET_MS }).should(
+        'have.length.greaterThan',
+        0
+      );
 
       cy.then(() => {
-        expect(Date.now() - start).to.be.lessThan(FILTER_RESPONSE_BUDGET_MS);
+        cy.wrap(Date.now() - start).should('be.lessThan', FILTER_RESPONSE_BUDGET_MS);
       });
     });
 
@@ -60,10 +63,13 @@ describe('Performance at scale', () => {
 
       cy.typeSearch(MOCK.searchTerm.matchesMusic); // "song"
 
-      cy.get(SEL.treeRow, { timeout: FILTER_RESPONSE_BUDGET_MS }).should('have.length.greaterThan', 0);
+      cy.get(SEL.treeRow, { timeout: FILTER_RESPONSE_BUDGET_MS }).should(
+        'have.length.greaterThan',
+        0
+      );
 
       cy.then(() => {
-        expect(Date.now() - start).to.be.lessThan(FILTER_RESPONSE_BUDGET_MS);
+        cy.wrap(Date.now() - start).should('be.lessThan', FILTER_RESPONSE_BUDGET_MS);
       });
     });
   });
@@ -90,7 +96,7 @@ describe('Performance at scale', () => {
     });
 
     it('expanding multiple folders does not blow up the DOM row count', () => {
-      cy.toggleFolder('Projects');  // 17 children
+      cy.toggleFolder('Projects'); // 17 children
       cy.get(SEL.treeRowByName('Projects')).should('have.attr', 'aria-expanded', 'true');
 
       cy.toggleFolder('Documents'); // 15 children

@@ -1,15 +1,17 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { Box } from '@mantine/core';
-import { FileTree, type VirtualRow } from './FileTree';
 import type { FileNode, FolderNode } from '@/types/fileSystem';
+import { FileTree, type VirtualRow } from './FileTree';
 
 const meta: Meta<typeof FileTree> = {
   title: 'organisms/FileTree',
   component: FileTree,
   decorators: [
     (Story) => (
-      <Box style={{ height: 400, display: 'flex', flexDirection: 'column', border: '1px solid #eee' }}>
+      <Box
+        style={{ height: 400, display: 'flex', flexDirection: 'column', border: '1px solid #eee' }}
+      >
         <Story />
       </Box>
     ),
@@ -59,14 +61,13 @@ const sampleRows: VirtualRow[] = [
 
 // 1000-item list for perf demo
 const largeRows: VirtualRow[] = Array.from({ length: 1000 }, (_, i) =>
-  makeFile(`item-${i}`, `File ${String(i + 1).padStart(4, '0')}.txt`, 0),
+  makeFile(`item-${i}`, `File ${String(i + 1).padStart(4, '0')}.txt`, 0)
 );
 
 export const Default: Story = {
   args: {
     flatRows: sampleRows,
     selectedId: null,
-    expandedIds: new Set(['f1', 'f3']),
     isRootLoading: false,
     onSelect: () => {},
     onToggle: () => {},
@@ -77,7 +78,6 @@ export const Loading: Story = {
   args: {
     flatRows: [],
     selectedId: null,
-    expandedIds: new Set(),
     isRootLoading: true,
     onSelect: () => {},
     onToggle: () => {},
@@ -88,7 +88,6 @@ export const Empty: Story = {
   args: {
     flatRows: [],
     selectedId: null,
-    expandedIds: new Set(),
     isRootLoading: false,
     onSelect: () => {},
     onToggle: () => {},
@@ -99,7 +98,6 @@ export const LargeList: Story = {
   args: {
     flatRows: largeRows,
     selectedId: null,
-    expandedIds: new Set(),
     isRootLoading: false,
     onSelect: () => {},
     onToggle: () => {},
@@ -113,7 +111,7 @@ export const Interactive: Story = {
       <FileTree
         flatRows={sampleRows}
         selectedId={selectedId}
-        expandedIds={new Set(['f1', 'f3'])}
+        hasBreadcrumbs={false}
         isRootLoading={false}
         onSelect={setSelectedId}
         onToggle={() => {}}

@@ -17,7 +17,9 @@ export function ExplorerLayout({ omnibar, tree, preview }: ExplorerLayoutProps) 
         </div>
       </nav>
 
-      <main className={classes.main} data-testid="explorer-preview">{preview}</main>
+      <main className={classes.main} data-testid="explorer-preview">
+        {preview}
+      </main>
     </div>
   );
 }

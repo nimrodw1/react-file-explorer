@@ -41,7 +41,7 @@ export function FileCategoryIcon({
   className,
 }: FileCategoryIconProps) {
   const IconComponent =
-    category === 'folder' && folderOpen ? FOLDER_OPEN_ICON : ICON_MAP[category] ?? IconFile;
+    category === 'folder' && folderOpen ? FOLDER_OPEN_ICON : (ICON_MAP[category] ?? IconFile);
 
   return (
     <IconComponent

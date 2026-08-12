@@ -1,6 +1,6 @@
 import { render, screen } from '@test-utils';
-import { FileTree, type VirtualRow } from './FileTree';
 import type { FileNode } from '@/types/fileSystem';
+import { FileTree, type VirtualRow } from './FileTree';
 
 const makeRow = (id: string, name: string): VirtualRow => ({
   node: {
@@ -33,7 +33,7 @@ describe('FileTree', () => {
         isRootLoading
         onSelect={vi.fn()}
         onToggle={vi.fn()}
-      />,
+      />
     );
     expect(screen.getByRole('status', { name: /loading files/i })).toBeInTheDocument();
   });
@@ -47,7 +47,7 @@ describe('FileTree', () => {
         isRootLoading={false}
         onSelect={vi.fn()}
         onToggle={vi.fn()}
-      />,
+      />
     );
     expect(screen.getByText(/this folder is empty/i)).toBeInTheDocument();
   });
@@ -57,11 +57,11 @@ describe('FileTree', () => {
       <FileTree
         flatRows={[]}
         selectedId={null}
-        hasBreadcrumbs={true}
+        hasBreadcrumbs
         isRootLoading={false}
         onSelect={vi.fn()}
         onToggle={vi.fn()}
-      />,
+      />
     );
     expect(screen.getByText(/no results/i)).toBeInTheDocument();
   });
@@ -75,7 +75,7 @@ describe('FileTree', () => {
         isRootLoading={false}
         onSelect={vi.fn()}
         onToggle={vi.fn()}
-      />,
+      />
     );
     expect(screen.getByRole('tree')).toBeInTheDocument();
   });

@@ -1,20 +1,24 @@
 import { useMemo } from 'react';
 import { useQueries } from '@tanstack/react-query';
-import { FileTree, type VirtualRow } from '@/ui/organisms/FileTree/FileTree';
-import { useSelectedId, useExpandedIds, useSetSelectedId, useToggleExpanded } from '@/hooks/useExplorer';
+import {
+  useSelectedId,
+  useExpandedIds,
+  useSetSelectedId,
+  useToggleExpanded,
+} from '@/hooks/useExplorer';
 import { useFilterParams } from '@/hooks/useFilterParams';
 import { useNodeChildren } from '@/hooks/useNodeChildren';
-import { useService } from '@/services/ServiceContext';
 import type { NodeDetails } from '@/services/IFileSystemService';
+import { useService } from '@/services/ServiceContext';
+import { isFolder, type FSNode, type NodeId } from '@/types/fileSystem';
 import { serializeFilter, isFilterActive } from '@/types/filters';
-import type { FSNode, NodeId } from '@/types/fileSystem';
-import { isFolder } from '@/types/fileSystem';
+import { FileTree, type VirtualRow } from '@/ui/organisms/FileTree/FileTree';
 
 function flattenTree(
   roots: FSNode[],
   expandedIds: Set<NodeId>,
   loadingIds: Set<NodeId>,
-  childrenMap: Map<NodeId, FSNode[]>,
+  childrenMap: Map<NodeId, FSNode[]>
 ): VirtualRow[] {
   const rows: VirtualRow[] = [];
   // Stack-based traversal: avoids call-stack limits on deep trees
@@ -22,7 +26,9 @@ function flattenTree(
 
   while (stack.length > 0) {
     const item = stack.pop();
-    if (!item) break;
+    if (!item) {
+      break;
+    }
     const [node, depth] = item;
     const isExpanded = isFolder(node) && expandedIds.has(node.id);
     const isLoading = isFolder(node) && loadingIds.has(node.id);
@@ -83,9 +89,7 @@ export function FileTreeContainer() {
       : [],
     combine: (results) =>
       new Map<NodeId, string>(
-        results.flatMap((r, i) =>
-          r.data !== undefined ? [[resultNodes[i].id, r.data]] : [],
-        ),
+        results.flatMap((r, i) => (r.data !== undefined ? [[resultNodes[i].id, r.data]] : []))
       ),
   });
 
@@ -95,23 +99,31 @@ export function FileTreeContainer() {
 
     expandedList.forEach((id, idx) => {
       const q = childQueries[idx];
-      if (q?.data) map.set(id, q.data);
-      if (q?.isLoading) loading.add(id);
+      if (q?.data) {
+        map.set(id, q.data);
+      }
+      if (q?.isLoading) {
+        loading.add(id);
+      }
     });
 
     return { childrenMap: map, loadingIds: loading };
   }, [expandedList, childQueries]);
 
   const flatRows = useMemo(() => {
-    if (!rootQuery.data) return [];
+    if (!rootQuery.data) {
+      return [];
+    }
     // In filter mode the results are a global flat list — never expand folders.
     const rows = flattenTree(
       rootQuery.data,
       filterActive ? new Set<NodeId>() : expandedIds,
       loadingIds,
-      childrenMap,
+      childrenMap
     );
-    if (!filterActive) return rows;
+    if (!filterActive) {
+      return rows;
+    }
     // Attach breadcrumb to every row in filtered/search mode
     return rows.map((row) => ({
       ...row,
