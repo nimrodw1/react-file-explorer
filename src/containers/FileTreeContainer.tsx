@@ -94,6 +94,7 @@ export function FileTreeContainer() {
       flatRows={flatRows}
       selectedId={selectedId}
       isFiltered={false}
+      isError={rootQuery.isError}
       isRootLoading={rootQuery.isLoading}
       onSelect={setSelectedId}
       onToggle={toggleExpanded}

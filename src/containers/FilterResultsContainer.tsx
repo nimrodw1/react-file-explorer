@@ -61,6 +61,7 @@ export function FilterResultsContainer() {
       flatRows={flatRows}
       selectedId={selectedId}
       isFiltered
+      isError={query.isError}
       expandable={false}
       isRootLoading={query.isLoading}
       totalCount={totalCount}

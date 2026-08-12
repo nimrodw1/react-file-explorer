@@ -27,6 +27,8 @@ export interface FileTreeProps {
   onNearEnd?: () => void;
   /** When false, hides the expand/collapse toggle on folder rows (used in filter mode). */
   expandable?: boolean;
+  /** When true, renders an error state instead of the tree/list. */
+  isError?: boolean;
   onSelect: (id: NodeId) => void;
   onToggle: (id: NodeId) => void;
 }
@@ -39,6 +41,7 @@ export function FileTree({
   selectedId,
   isFiltered,
   isRootLoading,
+  isError = false,
   totalCount,
   isFetchingNextPage = false,
   onNearEnd,
@@ -64,6 +67,17 @@ export function FileTree({
       onNearEnd();
     }
   }, [lastVirtualIndex, flatRows.length, onNearEnd]);
+
+  if (isError) {
+    return (
+      <Center className={classes.loading}>
+        <EmptyState
+          title="Something went wrong"
+          description="Files could not be loaded. Try refreshing the page."
+        />
+      </Center>
+    );
+  }
 
   if (isRootLoading) {
     return (
