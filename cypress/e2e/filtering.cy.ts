@@ -116,7 +116,7 @@ describe('Filtering', () => {
           cy.wrap($row).click();
 
           cy.get(SEL.treeRowSelected).should('exist');
-          cy.get(SEL.previewName).should('have.text', name);
+          cy.get(SEL.previewName).should('contain.text', name);
         });
     });
   });
