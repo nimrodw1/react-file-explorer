@@ -2,6 +2,8 @@
 
 A high-performance file explorer built with React 19 and Mantine 9. Features a resizable two-panel layout — a virtualized tree on the left and a file preview panel on the right — backed by a fully typed service layer with a mock implementation.
 
+**Live demo:** [nimrodw1.github.io/react-file-explorer](https://nimrodw1.github.io/react-file-explorer/)
+
 ## Features
 
 - **Tree explorer** — lazy-loaded, virtualized ([@tanstack/react-virtual](https://tanstack.com/virtual)) file tree supporting 10,000+ nodes with expand/collapse and keyboard navigation
@@ -38,6 +40,17 @@ yarn dev
 ```
 
 Open [http://localhost:5173](http://localhost:5173).
+
+## Live demo (GitHub Pages)
+
+Every push to `master` builds the production bundle and deploys it to GitHub Pages via [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
+
+**One-time repo setup** (required before the first deploy succeeds):
+
+1. GitHub repo → **Settings** → **Pages**
+2. **Build and deployment** → **Source:** GitHub Actions
+
+The app is then available at `https://<user>.github.io/<repo>/`. You can also trigger a deploy manually from the **Actions** tab → **Deploy to GitHub Pages** → **Run workflow**.
 
 ## Scripts
 
