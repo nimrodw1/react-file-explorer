@@ -1,5 +1,8 @@
 # React File Explorer
 
+[![Tests](https://github.com/nimrodw1/react-file-explorer/actions/workflows/npm_test.yml/badge.svg?branch=master)](https://github.com/nimrodw1/react-file-explorer/actions/workflows/npm_test.yml)
+[![Deploy](https://github.com/nimrodw1/react-file-explorer/actions/workflows/deploy.yml/badge.svg?branch=master)](https://github.com/nimrodw1/react-file-explorer/actions/workflows/deploy.yml)
+
 A high-performance file explorer built with React 19 and Mantine 9. Features a resizable two-panel layout — a virtualized tree on the left and a file preview panel on the right — backed by a fully typed service layer with a mock implementation.
 
 **Live demo:** [nimrodw1.github.io/react-file-explorer](https://nimrodw1.github.io/react-file-explorer/)
@@ -51,6 +54,8 @@ Every push to `master` builds the production bundle and deploys it to GitHub Pag
 2. **Build and deployment** → **Source:** GitHub Actions
 
 The app is then available at `https://<user>.github.io/<repo>/`. You can also trigger a deploy manually from the **Actions** tab → **Deploy to GitHub Pages** → **Run workflow**.
+
+The badges at the top of this file are GitHub-hosted SVGs. Each workflow exposes `…/actions/workflows/<file>.yml/badge.svg`; GitHub paints passing / failing / pending from the latest run on `master`. They are not part of the Pages deploy — GitHub renders them when someone views the README.
 
 ## Scripts
 
